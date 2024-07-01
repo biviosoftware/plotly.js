@@ -167,7 +167,7 @@ function plot(gd, cdModule) {
                     if(textPosition === 'outside') {
                         transform = transformOutsideText(textBB, pt);
                     } else {
-                        transform = transformInsideText(textBB, pt, cd0);
+                        transform = transformInsideText(textBB, pt, cd0, fullLayout);
                         if(textPosition === 'auto' && transform.scale < 1) {
                             var newFont = Lib.ensureUniformFontSize(gd, trace.outsidetextfont);
 
@@ -635,7 +635,7 @@ function prerenderTitles(cdModule, gd) {
     }
 }
 
-function transformInsideText(textBB, pt, cd0) {
+function transformInsideText(textBB, pt, cd0, fullLayout) {
     var r = cd0.r || pt.rpx1;
     var rInscribed = pt.rInscribed;
 
@@ -660,6 +660,7 @@ function transformInsideText(textBB, pt, cd0) {
     var isTangential = orientation === 'tangential';
     var isRadial = orientation === 'radial';
     var isAuto = orientation === 'auto';
+    var isUniformModeHide = fullLayout.uniformtext.mode === 'hide';
 
     var allTransforms = [];
     var newT;
@@ -723,7 +724,7 @@ function transformInsideText(textBB, pt, cd0) {
     }
 
     if(isAuto || isRadial) {
-        newT = calcRadTransform(textBB, r, ring, halfAngle, midAngle);
+        newT = calcRadTransform(textBB, r, ring, halfAngle, midAngle, isUniformModeHide);
         newT.textPosAngle = (pt.startangle + pt.stopangle) / 2;
         allTransforms.push(newT);
     }
@@ -760,7 +761,7 @@ function isCrossing(pt, angle) {
     );
 }
 
-function calcRadTransform(textBB, r, ring, halfAngle, midAngle) {
+function calcRadTransform(textBB, r, ring, halfAngle, midAngle, isUniformModeHide) {
     r = Math.max(0, r - 2 * TEXTPAD);
 
     // max size if text is rotated radially
@@ -768,7 +769,7 @@ function calcRadTransform(textBB, r, ring, halfAngle, midAngle) {
     var s = calcMaxHalfSize(a, halfAngle, r, ring);
     return {
         scale: s * 2 / textBB.height,
-        rCenter: calcRCenter(a, s / r),
+        rCenter: isUniformModeHide ? calcRingCenter(ring) : calcRCenter(a, s / r),
         rotate: calcRotate(midAngle)
     };
 }
@@ -788,6 +789,10 @@ function calcTanTransform(textBB, r, ring, halfAngle, midAngle) {
 
 function calcRCenter(a, b) {
     return Math.cos(b) - a * b;
+}
+
+function calcRingCenter(ring) {
+    return 1 - ring / 2;
 }
 
 function calcRotate(t) {
