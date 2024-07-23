@@ -678,7 +678,7 @@ function transformInsideText(textBB, pt, cd0, fullLayout) {
                 if(key === 'tan') {
                     newT = calcTanTransform(textBB, r, ring, closestEdge, 0);
                 } else { // case of 'rad'
-                    newT = calcRadTransform(textBB, r, ring, closestEdge, Math.PI / 2);
+                    newT = calcRadTransform(textBB, r, ring, closestEdge, Math.PI / 2, isUniformModeHide);
                 }
                 newT.textPosAngle = angle;
 
