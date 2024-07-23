@@ -739,14 +739,9 @@ function transformInsideText(textBB, pt, cd0, fullLayout) {
     var maxScale = 0;
     for(var k = 0; k < allTransforms.length; k++) {
         var s = allTransforms[k].scale;
-        if(maxScale < s) {
+        if(s - maxScale > 0.01) {
             maxScale = s;
             id = k;
-        }
-
-        if(!isAuto && maxScale >= 1) {
-            // respect test order for non-auto options
-            break;
         }
     }
     return allTransforms[id];
