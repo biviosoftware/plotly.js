@@ -10,7 +10,7 @@ jobs:
           node-version: lts/*
       - run: npm ci
       - run: npm run lint
-      - run: npm run custom-bundle -- --traces pie,bar,sunburst --transforms none
+      - run: npm run custom-bundle -- --traces pie,bar,sunburst,waterfall --transforms none
       - uses: actions/upload-artifact@v4
         with:
           name: plotly-custom.min.js
