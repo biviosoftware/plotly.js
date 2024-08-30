@@ -14,7 +14,7 @@ jobs:
       - id: get-short-sha
         run: |
           sha=$(echo ${{github.sha}} | cut -c-7)
-          echo "sha=$id" >> $GITHUB_OUTPUT
+          echo "sha=$sha" >> $GITHUB_OUTPUT
       - uses: actions/upload-artifact@v4
         with:
           name: plotly-custom-${{steps.get-short-sha.outputs.sha}}.min.js
