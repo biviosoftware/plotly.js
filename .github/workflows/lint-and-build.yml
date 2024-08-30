@@ -13,5 +13,5 @@ jobs:
       - run: npm run custom-bundle -- --traces pie,bar,sunburst,waterfall --transforms none
       - uses: actions/upload-artifact@v4
         with:
-          name: plotly-custom.min.js
+          name: plotly-custom-{{ github.run_id }}-{{github.run_attempt}}.min.js
           path: dist/plotly-custom.min.js
