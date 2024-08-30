@@ -15,7 +15,8 @@ jobs:
         run: |
           sha=$(echo ${{github.sha}} | cut -c-7)
           echo "sha=$sha" >> $GITHUB_OUTPUT
+      - run: mv dist/plotly-custom.min.js dist/plotly-custom-${{steps.get-short-sha.outputs.sha}}.min.js
       - uses: actions/upload-artifact@v4
         with:
           name: plotly-custom-${{steps.get-short-sha.outputs.sha}}.min.js
-          path: dist/plotly-custom.min.js
+          path: dist/plotly-custom-${{steps.get-short-sha.outputs.sha}}.min.js
