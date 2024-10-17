@@ -41,8 +41,10 @@ modeBarButtons.toImage = {
         var opts = gd._context.toImageButtonOptions || {};
         var format = opts.format || 'png';
         return format === 'png' ?
-            _(gd, 'Download plot as a png') : // legacy text
-            _(gd, 'Download plot'); // generic non-PNG text
+            // Overriding title; revert to "Download plot as a png" to support localization
+            _(gd, 'Download chart') : // legacy text
+            // Overriding title; revert to "Download plot" to support localization
+            _(gd, 'Download chart'); // generic non-PNG text
     },
     icon: Icons.camera,
     click: function(gd) {
